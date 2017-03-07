@@ -1,7 +1,6 @@
 ﻿# Datagg
 Datagg（Data aggregation) is designed to crawl and store data. The data will be input of model training and material of article. 
 
-
 运行环境:
 机器centos 7
 python 2.7
@@ -11,10 +10,9 @@ mongodb
 
 安装:
 1.安装scrapy(建议安装pip)
-
 1下载get-pip.py文件,执行python  get-pip.py
 检查是否安装成功pip --version
-2安装openssl  
+2安装openssl 
 3安装lxml
 4安装scrapy  使用pip install  scrapy
 验证是否成功  scrapy
@@ -36,4 +34,5 @@ requests模块  pip install requests
 此时爬虫就会自动启动 
 
 注意事项:
+
 注意配置代码中出现的redis,mongodb的ip地址端口号  
