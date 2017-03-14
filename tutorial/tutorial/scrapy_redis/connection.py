@@ -37,3 +37,18 @@ def get_redis(**kwargs):
         return redis_cls.from_url(url, **kwargs)
     else:
         return redis_cls(**kwargs)
+
+FILTER_URL=None
+FILTER_HOST='192.168.163.128'
+FILTER_PORT=6379
+FILTER_DB=0
+def from_setting_filter(settings):
+    url=settings.get('FILTER_URL',FILTER_URL)
+    host=settings.get('FILTER_HOST',FILTER_HOST)
+    port=settings.get('FILTER_PORT',FILTER_PORT)
+    db=settings.get('FILTER_DB',FILTER_DB)
+    if url:
+        return redis.from_url(url)
+    else:
+        return redis.Redis(host=host,port=port,db=db)
+

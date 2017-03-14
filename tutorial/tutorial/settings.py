@@ -26,7 +26,10 @@ REDIS_PORT=6379
 SCHEDULER_PERSIST=True
 
 
-
+FILTER_URL=None
+FILTER_HOST='192.168.163.128'
+FILTER_PORT=6379
+FILTER_DB=0
 
 DUPEFILTER_CLASS = "tutorial.scrapy_redis.dupefilter.RFPDupeFilter"
 SCHEDULER = "tutorial.scrapy_redis.scheduler.Scheduler"

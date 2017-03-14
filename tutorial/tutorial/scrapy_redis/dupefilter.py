@@ -7,6 +7,7 @@ from scrapy.utils.request import request_fingerprint
 from . import defaults
 from .connection import get_redis_from_settings
 
+from Bloom import BloomFilter
 
 logger = logging.getLogger(__name__)
 
@@ -19,10 +20,10 @@ class RFPDupeFilter(BaseDupeFilter):
         self.key = key
         self.debug = debug
         self.logdupes = True
-
+        self.bf=BloomFilter(server,key,blockNum=1)
     @classmethod
     def from_settings(cls, settings):
-        server = get_redis_from_settings(settings)
+        server = from_settings_filter(settings)
         key = defaults.DUPEFILTER_KEY % {'timestamp': int(time.time())}
         debug = settings.getbool('DUPEFILTER_DEBUG')
         return cls(server, key=key, debug=debug)
@@ -33,9 +34,13 @@ class RFPDupeFilter(BaseDupeFilter):
     def request_seen(self, request):
         fp = self.request_fingerprint(request)
 	# This returns the number of values added, zero if already exists.
-        added = self.server.sadd(self.key, fp)
-        return added == 0
-
+        #added = self.server.sadd(self.key, fp)
+        #return added == 0
+	if self.bf.isContains(fp):
+            return True
+        else:
+            self.bf.insert(fp)
+            return False	
     def request_fingerprint(self, request):
         return request_fingerprint(request)
 
